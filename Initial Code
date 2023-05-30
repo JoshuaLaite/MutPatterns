@@ -1,0 +1,364 @@
+> if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+> BiocManager::install ("MutationalPatterns")
+'getOption("repos")' replaces Bioconductor
+standard repositories, see
+'help("repositories", package =
+"BiocManager")' for details.
+Replacement repositories:
+    CRAN: https://cran.rstudio.com/
+Bioconductor version 3.17 (BiocManager
+  1.30.20), R 4.3.0 (2023-04-21)
+Warning message:
+package(s) not installed when version(s)
+  same as or greater than current; use
+  `force = TRUE` to re-install:
+  'MutationalPatterns' 
+> library(MutationalPatterns)
+Loading required package: NMF
+Loading required package: registry
+Loading required package: rngtools
+Loading required package: cluster
+NMF - BioConductor layer [OK] | Shared memory capabilities [NO: bigmemory] | Cores 2/2
+  To enable shared memory capabilities, try: install.extras('
+NMF
+')
+
+Attaching package: ‘NMF’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    nrun
+
+> 
+> library(BSgenome)
+> ref_genome <- "BSgenome.Hsapiens.UCSC.hg19"
+> library(ref_genome, character.only = TRUE)
+Error in library(ref_genome, character.only = TRUE) : 
+  there is no package called ‘BSgenome.Hsapiens.UCSC.hg19’
+> BSgenome.Hsapiens.UCSC.hg19 <- BSgenome::available.genomes()["BSgenome.Hsapiens.UCSC.hg19"]
+'getOption("repos")' replaces Bioconductor
+standard repositories, see
+'help("repositories", package =
+"BiocManager")' for details.
+Replacement repositories:
+    CRAN: https://cran.rstudio.com/
+> BSgenome::install.Genome(BSgenome.Hsapiens.UCSC.hg19)
+Error: 'install.Genome' is not an exported object from 'namespace:BSgenome'
+> installed.genomes(BSgenome.Hsapiens.UCSC.hg19)
+Error in installed.genomes(BSgenome.Hsapiens.UCSC.hg19) : 
+  'splitNameParts' must be TRUE or FALSE
+> installed.genomes(BSgenome.Hsapiens.UCSC.hg19, character.only = TRUE)
+Error in installed.genomes(BSgenome.Hsapiens.UCSC.hg19, character.only = TRUE) : 
+  unused argument (character.only = TRUE)
+> BiocManager::install("BSgenome.Hsapiens.UCSC.hg19")
+'getOption("repos")' replaces Bioconductor
+standard repositories, see
+'help("repositories", package =
+"BiocManager")' for details.
+Replacement repositories:
+    CRAN: https://cran.rstudio.com/
+Bioconductor version 3.17 (BiocManager
+  1.30.20), R 4.3.0 (2023-04-21)
+Installing package(s)
+  'BSgenome.Hsapiens.UCSC.hg19'
+installing the source package ‘BSgenome.Hsapiens.UCSC.hg19’
+
+trying URL 'https://bioconductor.org/packages/3.17/data/annotation/src/contrib/BSgenome.Hsapiens.UCSC.hg19_1.4.3.tar.gz'
+Content type 'application/x-gzip' length 710245413 bytes (677.3 MB)
+==================================================
+downloaded 677.3 MB
+
+* installing *source* package ‘BSgenome.Hsapiens.UCSC.hg19’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (BSgenome.Hsapiens.UCSC.hg19)
+
+The downloaded source packages are in
+	‘/private/var/folders/wv/6gd575453jz0vlc1fj42ply40000gn/T/RtmpUG1k0u/downloaded_packages’
+Warning message:
+In doTryCatch(return(expr), name, parentenv, handler) :
+  restarting interrupted promise evaluation
+> 
+> ref_genome <- BSgenome.Hsapiens.UCSC.hg19
+> library(ref_genome, character.only = TRUE)
+Error in library(ref_genome, character.only = TRUE) : 
+  invalid package name
+> library(BSgenome.Hsapiens.UCSC.hg19, character.only = TRUE)
+Error in library(BSgenome.Hsapiens.UCSC.hg19, character.only = TRUE) : 
+  invalid package name
+> install.packages("VariantAnnotation")
+Warning in install.packages :
+  package ‘VariantAnnotation’ is not available for this version of R
+
+A version of this package for your version of R might be available elsewhere,
+see the ideas at
+https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages
+> vailable_packages <- available.packages()
+> latest_version <- available_packages["VariantAnnotation", "Version"]
+Error: object 'available_packages' not found
+> install.packages("vcfR")
+also installing the dependencies ‘permute’, ‘ape’, ‘memuse’, ‘pinfsc50’, ‘vegan’
+
+trying URL 'https://cran.rstudio.com/bin/macosx/big-sur-x86_64/contrib/4.3/permute_0.9-7.tgz'
+Content type 'application/x-gzip' length 217663 bytes (212 KB)
+==================================================
+downloaded 212 KB
+
+trying URL 'https://cran.rstudio.com/bin/macosx/big-sur-x86_64/contrib/4.3/ape_5.7-1.tgz'
+Content type 'application/x-gzip' length 3538477 bytes (3.4 MB)
+==================================================
+downloaded 3.4 MB
+
+trying URL 'https://cran.rstudio.com/bin/macosx/big-sur-x86_64/contrib/4.3/memuse_4.2-3.tgz'
+Content type 'application/x-gzip' length 637458 bytes (622 KB)
+==================================================
+downloaded 622 KB
+
+trying URL 'https://cran.rstudio.com/bin/macosx/big-sur-x86_64/contrib/4.3/pinfsc50_1.2.0.tgz'
+Content type 'application/x-gzip' length 3468963 bytes (3.3 MB)
+==================================================
+downloaded 3.3 MB
+
+trying URL 'https://cran.rstudio.com/bin/macosx/big-sur-x86_64/contrib/4.3/vegan_2.6-4.tgz'
+Content type 'application/x-gzip' length 3178965 bytes (3.0 MB)
+==================================================
+downloaded 3.0 MB
+
+trying URL 'https://cran.rstudio.com/bin/macosx/big-sur-x86_64/contrib/4.3/vcfR_1.14.0.tgz'
+Content type 'application/x-gzip' length 3083153 bytes (2.9 MB)
+==================================================
+downloaded 2.9 MB
+
+
+The downloaded binary packages are in
+	/var/folders/wv/6gd575453jz0vlc1fj42ply40000gn/T//RtmpUG1k0u/downloaded_packages
+> 
+> ref_genome <- "BSgenome.Hsapiens.UCSC.hg19"
+> library(ref_genome, character.only = TRUE)
+
+Attaching package: ‘BSgenome.Hsapiens.UCSC.hg19’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    BSgenome.Hsapiens.UCSC.hg19
+
+> ref_genome <- "BSgenome.Hsapiens.UCSC.hg19"
+> View(vailable_packages)
+> vcf_files <- read.vcfR("/Users/joshualaite/Downloads/Somatic_Variants")
+Error in read.vcfR("/Users/joshualaite/Downloads/Somatic_Variants") : 
+  could not find function "read.vcfR"
+> vcf_files <- list.files("/Users/joshualaite/Downloads/Somatic_Variants", full.names = TRUE, package = "MutationalPatterns")
+Error in list.files("/Users/joshualaite/Downloads/Somatic_Variants", full.names = TRUE,  : 
+  unused argument (package = "MutationalPatterns")
+> vcf_files <- list.files("/Users/joshualaite/Downloads/Somatic_Variants", full.names = TRUE)
+> grl <- read_vcfs_as_granges(vcf_files, ref_genome)
+Error: Please provide the same number of sample names as VCF files
+> sample_names <- c("lung1", "lung2", "lung3", "lung4", "lung5", "lung6", "lung7", "lung8", "lung9", "lung10", "lung11", "lung12", "lung13", "lung14", "lung15", "lung16", "lung17", "lung18", "lung19", "lung20", "lung21", "lung22", "lung23", "lung24", "lung25", "lung26", "lung27", "lung28", "lung29", "lung30", "lung31", "lung32", "lung33", "lung34", "lung35", "lung36", "lung37", "lung38", "lung39", "lung40", "lung41", "lung42")
+> grl <- read_vcfs_as_granges(vcf_files, sample_names, ref_genome)
+Any neighbouring SNVs will be merged into DBS/MBS variants.
+Set the 'predefined_dbs_mbs' to 'TRUE' if you don't want this.
+> snv_grl <- get_mut_type(vcf_files, type = "snv")
+Any neighbouring SNVs will be merged into DBS/MBS variants.
+Set the 'predefined_dbs_mbs' to 'TRUE' if you don't want this.
+Error in .not_gr_or_grl(vcf_list) : 
+  vcf_list should be a CompressedGRangesList or GRanges object, instead it is a character object.
+               Please provide an object of the correct class.
+> snv_grl <- get_mut_type(grl, type = "snv")
+Any neighbouring SNVs will be merged into DBS/MBS variants.
+Set the 'predefined_dbs_mbs' to 'TRUE' if you don't want this.
+> indel_grl <- get_mut_type(grl, type = "indel")
+> dbs_grl <- get_mut_type(grl, type = "dbs")
+Any neighbouring SNVs will be merged into DBS/MBS variants.
+Set the 'predefined_dbs_mbs' to 'TRUE' if you don't want this.
+> mbs_grl <- get_mut_type(grl, type = "mbs")
+Any neighbouring SNVs will be merged into DBS/MBS variants.
+Set the 'predefined_dbs_mbs' to 'TRUE' if you don't want this.
+> muts <- mutations_from_vcf(grl[[1]])
+> head(muts, 42)
+ [1] "T>C" "G>T" "G>T" "C>T" "C>T" "C>T"
+ [7] "G>A" "G>A" "G>A" "G>A" "A>T" "G>T"
+[13] "A>G" "G>C" "C>G" "C>G" "C>T" "C>G"
+[19] "G>A" "G>A" "C>G" "C>A" "G>A" "C>T"
+[25] "C>G" "C>A" "G>C" "C>T" "C>T" "C>T"
+[31] "G>C" "C>A" "A>C" "A>G" "C>A" "T>C"
+[37] "C>T" "G>C" "G>A" "C>A" "C>A" "T>C"
+> types <- mut_type(grl[[1]])
+> head (types, 42)
+ [1] "T>C" "C>A" "C>A" "C>T" "C>T" "C>T"
+ [7] "C>T" "C>T" "C>T" "C>T" "T>A" "C>A"
+[13] "T>C" "C>G" "C>G" "C>G" "C>T" "C>G"
+[19] "C>T" "C>T" "C>G" "C>A" "C>T" "C>T"
+[25] "C>G" "C>A" "C>G" "C>T" "C>T" "C>T"
+[31] "C>G" "C>A" "T>G" "T>C" "C>A" "T>C"
+[37] "C>T" "C>G" "C>T" "C>A" "C>A" "T>C"
+> type_context <- (type_context(grl[1]]. ref_genome) lapply(type_context, head, 42)
+Error: unexpected ']' in "type_context <- (type_context(grl[1]]"
+> type_context <- (type_context(grl[1]], ref_genome) lapply(type_context, head, 42)
+Error: unexpected ']' in "type_context <- (type_context(grl[1]]"
+> type_context <- (type_context(grl[[1]], ref_genome) lapply(type_context, head, 42)
+Error: unexpected symbol in "type_context <- (type_context(grl[[1]], ref_genome) lapply"
+> type_context <- (type_context(grl[1], ref_genome) lapply(type_context, head, 42)
+Error: unexpected symbol in "type_context <- (type_context(grl[1], ref_genome) lapply"
+> type_context <- (type_context(grl[[1]], ref_genome) lapply(type_context, head, 42)
+Error: unexpected symbol in "type_context <- (type_context(grl[[1]], ref_genome) lapply"
+> type_context <- type_context(grl[[1]], ref_genome) lapply(type_context, head, 42)
+Error: unexpected symbol in "type_context <- type_context(grl[[1]], ref_genome) lapply"
+> type_context <- type_context(grl[[1]], ref_genome) lapply(type_context, head, 42)
+Error: unexpected symbol in "type_context <- type_context(grl[[1]], ref_genome) lapply"
+> type_occurrences <- mut_type_occurrences(grl, ref_genome)
+> type_occurrences
+       C>A C>G C>T T>A T>C T>G C>T at CpG
+lung1  161 113 220  37  49  16         63
+lung2  140 123 238  46  51  18         67
+lung3  192  82 174  63  83  26         57
+lung4  211  82 206  59  86  31         81
+lung5  247 105 243  70  92  36         92
+lung6  207  90 195  61  88  24         74
+lung7  444 100 263  78 102  35         97
+lung8  222 122 363  74 134  41        149
+lung9  185  92 247  61  85  32         60
+lung10 179  81 219  66  76  38         59
+lung11 181  86 228  58  77  35         56
+lung12 135 209 370  48  65  15         97
+lung13 179 255 485  66  94  26        127
+lung14 212 311 570  76  92  23        161
+lung15 126 168 353  55  69  23         96
+lung16 152  59 154  54  64  15         39
+lung17 166  82 201  56  76  23         55
+lung18 103  37  89  37  34  11         20
+lung19 160  63 214  59  76  17         58
+lung20 159  61 203  49  64  13         57
+lung21 134  60 136  49  59  16         32
+lung22 109  64 170  44  89  16         42
+lung23 158  94 192  47  62  21         43
+lung24 155  70 164  47  63  17         41
+lung25 164  55 201  59  66  18         70
+lung26 155  53 192  59  63  15         63
+lung27 140  42 162  53  58  16         52
+lung28 154 192 298  82  74  26         91
+lung29 162 204 298  82  84  27         85
+lung30 114  47 157  47  58  16         54
+lung31 128 132 253  45  65  20         75
+lung32 131 124 262  55  65  20         78
+lung33  44  37 114  38  74  19         43
+lung34 159  93 212  63  76  34         77
+lung35 178 170 332  82  73  37        102
+lung36 183 175 340  84  83  38        101
+lung37 146  68 181  64  64  34         64
+lung38 141 135 252  66  76  23         80
+lung39 153 167 289  79  95  30         90
+lung40 160 161 283  78  81  44         91
+lung41 110 161 200  74  67  25         73
+lung42  78 123 228  27  36  10         74
+       C>T other
+lung1        157
+lung2        171
+lung3        117
+lung4        125
+lung5        151
+lung6        121
+lung7        166
+lung8        214
+lung9        187
+lung10       160
+lung11       172
+lung12       273
+lung13       358
+lung14       409
+lung15       257
+lung16       115
+lung17       146
+lung18        69
+lung19       156
+lung20       146
+lung21       104
+lung22       128
+lung23       149
+lung24       123
+lung25       131
+lung26       129
+lung27       110
+lung28       207
+lung29       213
+lung30       103
+lung31       178
+lung32       184
+lung33        71
+lung34       135
+lung35       230
+lung36       239
+lung37       117
+lung38       172
+lung39       199
+lung40       192
+lung41       127
+lung42       154
+> 
+> p1 <- plot_spectrum(type_ocuurences)
+Error: object 'type_ocuurences' not found
+> p1 <- plot_spectrum(type_occurrences)
+> p2 <- plot_spectrum(type_occurrences, CT = TRUE)
+> p3 <- plot_spectrum(type_occurrences, CT = TRUE, 
++                     indv_points = TRUE, legend = FALSE)
+> library("gridExtra")
+Error in library("gridExtra") : there is no package called ‘gridExtra’
+> install.packages("gridExtra")
+trying URL 'https://cran.rstudio.com/bin/macosx/big-sur-x86_64/contrib/4.3/gridExtra_2.3.tgz'
+Content type 'application/x-gzip' length 1105375 bytes (1.1 MB)
+==================================================
+downloaded 1.1 MB
+
+
+The downloaded binary packages are in
+	/var/folders/wv/6gd575453jz0vlc1fj42ply40000gn/T//RtmpUG1k0u/downloaded_packages
+> library("gridExtra")
+
+Attaching package: ‘gridExtra’
+
+The following object is masked from ‘package:Biobase’:
+
+    combine
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+The following object is masked from ‘package:BiocGenerics’:
+
+    combine
+
+> grid.arrange(p1, p2, p3, ncol = 3, widths = c(3, 3, 1.75))
+> p4 <- plot_spectrum(type_occurences, CT = TRUE, legend = TRUE, error_bars = "stdev")
+Error: object 'type_occurences' not found
+> > p4 <- plot_spectrum(type_occurrences, CT = TRUE, legend = TRUE, error_bars = "stdev")
+Error: unexpected '>' in ">"
+> p5 <- plot_spectrum(type_occurrences, CT = TRUE, 
++                     legend = TRUE, error_bars = "stdev")
+> grid.arrange( p5, ncol = 2, widths = c(4, 2.3))
+> mut_mat <- mut_matrix(vcf_list = grl, ref_genome = ref_genome)
+> head(mut_mat
++ plot_96_profile(mut_mat[, c(1, 7)])
+Error: unexpected symbol in:
+"head(mut_mat
+plot_96_profile"
+> plot_96_profile(mut_mat[c(1,7)])
+Error in apply(mut_matrix, 2, function(x) x/sum(x)) : 
+  dim(X) must have a positive length
+> plot_96_profile(mut_mat[c(10,7)])
+Error in apply(mut_matrix, 2, function(x) x/sum(x)) : 
+  dim(X) must have a positive length
+> plot_96_profile(mut_mat[c(100,10)])
+Error in apply(mut_matrix, 2, function(x) x/sum(x)) : 
+  dim(X) must have a positive length
+> plot_96_profile(mut_mat[c(1,42)])
+Error in apply(mut_matrix, 2, function(x) x/sum(x)) : 
+  dim(X) must have a positive length
+> 
