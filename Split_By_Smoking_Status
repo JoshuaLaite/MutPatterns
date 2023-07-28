@@ -1,0 +1,66 @@
+library(data.table);library(dplyr);
+
+library(ggplot2); library(GGally)
+library(cowplot);
+library(ggpubr)
+
+Work.dir <- as.character("/Users/joshualaite/Desktop/Mutational Signatures in SCC/R_Sample_Outputs_Research_Project/Somatic_Further")
+
+setwd(Work.dir)
+
+# read in the data
+all <- fread("/Users/joshualaite/Desktop/Mutational Signatures in SCC/R_Files/R_Top10/Somatic.all.samples.top.signatures.txt")
+sampleinfo <- fread("/Users/joshualaite/Desktop/Mutational Signatures in SCC/R_Files/Indolent.Progressive.Samples-for-JL-extra_information.txt")
+
+# add sample info
+all <- left_join(all, sampleinfo, by="SampleID")
+all <- mutate(all, Sample_Site=paste0(Local_PatientID, "_", AnatomicSite_Text))
+
+head(all)
+
+# ggpairs
+ggpairs(select(all, signature, Sig_Contribution,Outcome, Age.at.sampling.years,AnatomicSite_Text, Histology, Gender, Pack.year.history, Prev.history.lung.cancer, COPD, Smoking_history) %>% filter(signature =="SBS4"))
+
+
+# filter for CIS 
+all.cis <- all %>% filter(Histology =="CIS")
+
+# boxplot outcome vs sig_contr. split by signature
+# stat_compare_means used to compare means 
+ggplot(all.cis, aes(x=Outcome, y=Sig_Contribution)) + 
+  geom_boxplot() + 
+  geom_jitter(width=0.2) + 
+  theme_cowplot(font_size = 20) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  labs(x="Outcome", y="Signature Contribution")+
+  facet_grid(~ signature)+
+  stat_compare_means()
+
+
+# boxplot smoking history vs sig_contr. split by signature
+# stat_compare_means used to compare means 
+ggplot(all.cis, aes(x=Smoking_history, y=Sig_Contribution)) + 
+  geom_boxplot() + 
+  geom_jitter(width=0.2) + 
+  theme_cowplot(font_size = 20) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  labs(x="Smoking History", y="Signature Contribution")+
+  facet_grid(~ signature)+
+  stat_compare_means()
+
+
+# plot points log data
+sbs4 <- all %>% filter(signature =="SBS4")
+
+ggplot(sbs4, aes(x=Days, y=Sig_Contribution)) + 
+  geom_point(size=3, aes(color=factor(Smoking_history), shape=Histology)) +   # Draw points
+  geom_smooth(method = "lm",  aes(color=factor(Smoking_history)), se=FALSE,fullrange=TRUE)+
+  facet_grid(Sample_Site ~ Outcome, scale="free_y")+
+  xlab("Days from first sampling")+ylab("SBS4 Contribution")+
+  theme_cowplot(font_size=16)+
+  stat_cor()
+
+For Clonal
+
+
+For Subclonal
