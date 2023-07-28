@@ -1,0 +1,24 @@
+# Filter for CIS
+all.cis <- all %>% filter(Histology == "CIS")
+
+# Fit the mixed linear effects model
+model <- lmer(Sig_Contribution ~ Outcome + (1 | Sample_Site), data = all.cis)
+
+# Boxplot outcome vs sig_contr. split by signature
+# stat_compare_means used to compare means
+ggplot(all.cis, aes(x = Outcome, y = Sig_Contribution)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2) +
+  theme_cowplot(font_size = 20) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Outcome", y = "Signature Contribution") +
+  facet_grid(~signature) +
+  stat_compare_means() +
+  # Add the mixed effects model results to the plot
+  geom_smooth(method = "lm", aes(group = 1), se = FALSE, fullrange = TRUE, color = "red") +
+  # Extract the fixed effect estimates and p-values from the mixed effects model
+  annotate(
+    "text", x = 1.8, y = 0.8,
+    label = paste("Fixed Effect: p =", signif(summary(model)$coefficients[2, "Pr(>|t|)"], digits = 3)),
+    color = "red"
+  )
