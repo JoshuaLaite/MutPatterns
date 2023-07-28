@@ -1,0 +1,28 @@
+Work.dir <- as.character("/Users/joshualaite/Desktop/Mutational Signatures in SCC/R_Sample_Outputs_Research_Project/Somatic_Further")
+
+setwd(Work.dir)
+
+# read in the data
+all <- fread("/Users/joshualaite/Desktop/Mutational Signatures in SCC/R_Files/R_Top10/Somatic.all.samples.top.signatures.txt")
+sampleinfo <- fread("/Users/joshualaite/Desktop/Mutational Signatures in SCC/R_Files/Indolent.Progressive.Samples-for-JL-extra_information.txt")
+
+# add sample info
+all <- left_join(all, sampleinfo, by="SampleID")
+all <- mutate(all, Sample_Site=paste0(Local_PatientID, "_", AnatomicSite_Text))
+
+head(all)
+
+# boxplot outcome vs sig_contr. split by signature
+# stat_compare_means used to compare means 
+results <- ggplot(all, aes(x=Outcome, y=Sig_Contribution)) + 
+  geom_boxplot() + 
+  geom_jitter(width=0.2) + 
+  theme_cowplot(font_size = 20) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  labs(x="Outcome", y="Signature Contribution")+
+  facet_grid(~ signature)+
+  stat_compare_means()
+
+print(results)
+
+p_values <- results$data$p
