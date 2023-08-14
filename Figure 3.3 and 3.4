@@ -1,0 +1,51 @@
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(GGally)
+library(cowplot)
+library(ggpubr)
+library(lme4)
+library(lmerTest)
+
+options(repr.plot.width = 22, repr.plot.height = 7)
+
+# read in the data
+all <- fread("//Users/joshualaite/Desktop/Mutational Signatures in SCC/R_Files/R_Top10/Subclonal.all.samples.top.signatures.txt")
+sampleinfo <- fread("/Users/joshualaite/Desktop/Mutational Signatures in SCC/R_Files/Indolent.Progressive.Samples-for-JL-extra_information.txt")
+
+# add sample info
+all <- left_join(all, sampleinfo, by = "SampleID")
+all <- mutate(all, Sample_Site = paste0(Local_PatientID, "_", AnatomicSite_Text))
+
+# filter for CIS 
+all.cis <- all %>% filter(Histology == "CIS")
+
+# Fit a mixed-effects model - correct for SiteID (patient + Site)
+df.signatures <- data.frame(signature = unique(all.cis$signature), pvalue = numeric(length(unique(all.cis$signature))))
+
+for (x in unique(all.cis$signature)) {
+  df.sig <- all.cis %>% filter(signature == x)
+  model <- lmer(Sig_Contribution ~ Smoking_history + (1|Sample_Site), data = df.sig)
+  df.signatures$pvalue[df.signatures$signature == x] <- signif(anova(model)$`Pr(>F)`, 2)
+}
+
+# Convert pvalue to numeric
+df.signatures$pvalue <- as.numeric(df.signatures$pvalue)
+
+# boxplot smoking history vs sig_contr. split by signature
+ggplot(all.cis, aes(x=Smoking_history, y=Sig_Contribution)) + 
+  geom_boxplot() + 
+  geom_jitter(width=0.2) + 
+  theme_cowplot(font_size = 20) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  labs(x="Smoking History", y="Relative Contribution")+
+  facet_grid(~ signature)+
+  geom_text(
+    data = df.signatures[!is.na(df.signatures$pvalue), ],
+    aes(label = paste0("p = ", round(pvalue, 3))),
+    x = 2, y = Inf, hjust = 1, vjust = 1,
+    size = 6, show.legend = FALSE
+  )
+
+
+
