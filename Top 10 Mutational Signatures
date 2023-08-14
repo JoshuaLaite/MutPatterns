@@ -1,3 +1,5 @@
+Generating figure 3.1:
+
 library(dplyr)
 library(data.table)
 library(ggplot2)
@@ -36,11 +38,8 @@ vcf_files <- SampleInfo$files
 sample_names <- SampleInfo$SampleID
 sample_Status <- SampleInfo$Status
 
-## reading the vcfs for SNVs and for indel analysis
+## reading the vcfs for SNVs analysis
 snv_grl <- read_vcfs_as_granges(vcf_files, sample_names, ref_genome, type = "snv", predefined_dbs_mbs = TRUE)
-#indel_grl <- read_vcfs_as_granges(vcf_files, sample_names, ref_genome, type = "indel", predefined_dbs_mbs = TRUE)
-#dbs_grl <- read_vcfs_as_granges(vcf_files, sample_names, ref_genome, type = "dbs", predefined_dbs_mbs = TRUE)
-
 
 type_occurrences <- mut_type_occurrences(snv_grl, ref_genome)
 fwrite(type_occurrences, paste0(PatientID, ".SNV.type_occurrences.txt"), sep="\t")
@@ -72,20 +71,20 @@ sigs.to.analyse <- c(sigs.to.analyse)
 
 cancer_signatures.used <- signatures[,sigs.to.analyse]
 fit_res_selected <- fit_to_signatures(mut_mat, cancer_signatures.used)
-relative.plot <- plot_contribution(fit_res_selected$contribution, coord_flip = FALSE, mode = "relative")+ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))
-absolute.plot <- plot_contribution(fit_res_selected$contribution, coord_flip = FALSE, mode = "absolute")+ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))
+relative.plot <- plot_contribution(fit_res_selected$contribution, coord_flip = FALSE, mode = "relative")+ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1, size = 15), axis.title.y = element_text(size = 18), legend.title = element_text(size = 18),  legend.text = element_text(size = 18))
+absolute.plot <- plot_contribution(fit_res_selected$contribution, coord_flip = FALSE, mode = "absolute")+ggplot2::theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1, size = 15), axis.title.y = element_text(size = 18), legend.title = element_text(size = 18),  legend.text = element_text(size = 18))
 
 
 top.sigs <- as.data.frame(fit_res_selected$contribution)
 top.sigs$signature <- rownames(top.sigs)
-top.sigs <- melt(top.sigs, id.vars = "signature", variable.name = "SampleID", value.name = "Sig_Contribution")
+top.sigs <- reshape2::melt(top.sigs, id.vars = "signature", variable.name = "SampleID", value.name = "Sig_Contribution")
 
 fwrite(top.sigs, paste0(PatientID, ".top.signatures.txt"), sep="\t")
 
 ggsave(relative.plot, file=paste0(PatientID, ".SBS.top10.signatures.relative.pdf"), width=14, height=7)
 ggsave(absolute.plot, file=paste0(PatientID, ".SBS.top10.signatures.absolute.pdf"), width=14, height=7)
 
-Above example can be executed for Somatic (unsplit by clonality) Samples
+For generating figure 3.2:
 
 For Clonal:
 Change line 9 to VCF.path <- as.character("/Users/joshualaite/Desktop/Mutational Signatures in SCC/R_Files/VCF_Clonal_Samples")
